@@ -4,7 +4,7 @@ import { planets, PlanetData } from './data/planets';
 function App() {
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(2);
   const [hoveredPlanet, setHoveredPlanet] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
@@ -55,7 +55,10 @@ function App() {
     // Draw planets
     planets.forEach((planet) => {
       // Calculate position based on orbital period
-      const angularSpeed = (2 * Math.PI) / (planet.orbitalPeriod * 60); // Scale for visual speed
+      // Base speed: Earth completes one orbit in ~30 seconds at 1x speed
+      const earthOrbitSeconds = 30;
+      const earthOrbitalPeriod = 365;
+      const angularSpeed = (2 * Math.PI * earthOrbitalPeriod) / (planet.orbitalPeriod * earthOrbitSeconds);
       const angle = time * angularSpeed;
       const x = centerX + planet.displayOrbit * Math.cos(angle);
       const y = centerY + planet.displayOrbit * Math.sin(angle);
@@ -181,7 +184,9 @@ function App() {
 
     // Check if clicked on a planet
     for (const planet of planets) {
-      const angularSpeed = (2 * Math.PI) / (planet.orbitalPeriod * 60);
+      const earthOrbitSeconds = 30;
+      const earthOrbitalPeriod = 365;
+      const angularSpeed = (2 * Math.PI * earthOrbitalPeriod) / (planet.orbitalPeriod * earthOrbitSeconds);
       const angle = timeRef.current * 0.001 * angularSpeed;
       const px = centerX + planet.displayOrbit * Math.cos(angle);
       const py = centerY + planet.displayOrbit * Math.sin(angle);
@@ -212,7 +217,9 @@ function App() {
 
     let found = false;
     for (const planet of planets) {
-      const angularSpeed = (2 * Math.PI) / (planet.orbitalPeriod * 60);
+      const earthOrbitSeconds = 30;
+      const earthOrbitalPeriod = 365;
+      const angularSpeed = (2 * Math.PI * earthOrbitalPeriod) / (planet.orbitalPeriod * earthOrbitSeconds);
       const angle = timeRef.current * 0.001 * angularSpeed;
       const px = centerX + planet.displayOrbit * Math.cos(angle);
       const py = centerY + planet.displayOrbit * Math.sin(angle);
